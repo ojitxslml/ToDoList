@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, deleteTask } from "./reducers/taskSlice"; // Ajusta la ruta según tu estructura
+import { addTask } from "./reducers/taskSlice"; // Ajusta la ruta según tu estructura
 import { RootState } from "./store"; // Importar RootState para tipar el estado
+import { Box, Button, Container, Stack, TextField } from "@mui/material";
+import TaskC from "./components/TaskC";
+import { Status } from "./types";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -17,6 +20,7 @@ const App: React.FC = () => {
       const newTask = {
         id: Date.now().toString(), // Generamos un ID único basado en el tiempo (puedes usar otra estrategia)
         title: newTaskTitle.trim(),
+        status: "pending" as Status,
       };
       dispatch(addTask(newTask)); // Despachamos la acción para agregar la nueva tarea
       setNewTaskTitle(""); // Limpiamos el campo de entrada después de agregar la tarea
@@ -24,32 +28,44 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Tasks</h1>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        /*         background: "linear-gradient(135deg, #E0F7FA 100%, #81D4BA 100%)",  */ // Gradiente de blanco a morado claro
+        minHeight: "100vh", // Ocupa toda la altura de la pantalla
+      }}
+    >
+      <Container>
+        <Stack direction={"column"}>
+          <h1>Tasks</h1>
 
-      {/* Formulario para agregar una tarea */}
-      <form onSubmit={handleAddTask}>
-        <input
-          type="text"
-          value={newTaskTitle}
-          onChange={(e) => setNewTaskTitle(e.target.value)} // Actualiza el estado con el valor del input
-          placeholder="New task"
-        />
-        <button type="submit">Add Task</button>
-      </form>
+          <form onSubmit={handleAddTask}>
+            <TextField
+              id="outlined-basic"
+              value={newTaskTitle}
+              onChange={(e) => setNewTaskTitle(e.target.value)}
+              label="New task"
+              size="small"
+            />
+            <Button
+              sx={{ marginLeft: 1 }}
+              variant="contained"
+              disableElevation
+              type="submit"
+            >
+              Add Task
+            </Button>
+          </form>
 
-      {/* Lista de tareas */}
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            {task.title}
-            <button onClick={() => dispatch(deleteTask(task.id))}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+          <ul>
+            {tasks.map((task) => (
+              <TaskC key={task.id} task={task} /> // Pasamos el task como prop
+            ))}
+          </ul>
+        </Stack>
+      </Container>
+    </Box>
   );
 };
 
