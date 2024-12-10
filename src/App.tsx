@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addTask } from "./reducers/taskSlice"; // Ajusta la ruta según tu estructura
-import { RootState } from "./store"; // Importar RootState para tipar el estado
 import { Box, Button, Container, Stack, TextField } from "@mui/material";
-import TaskC from "./components/TaskC";
 import { Status } from "./types";
+import TaskTables from "./components/TaskTable";
 
 const App: React.FC = () => {
-  const dispatch = useDispatch();
-  const tasks = useSelector((state: RootState) => state.tasks.tasks); // Accedemos solo a tasks
+  const dispatch = useDispatch();// Accedemos solo a tasks
 
   const [newTaskTitle, setNewTaskTitle] = useState(""); // Estado local para el título de la nueva tarea
 
@@ -38,7 +36,7 @@ const App: React.FC = () => {
     >
       <Container>
         <Stack direction={"column"}>
-          <h1>Tasks</h1>
+          <h1>Tasks To Do</h1>
 
           <form onSubmit={handleAddTask}>
             <TextField
@@ -57,12 +55,7 @@ const App: React.FC = () => {
               Add Task
             </Button>
           </form>
-
-          <ul>
-            {tasks.map((task) => (
-              <TaskC key={task.id} task={task} /> // Pasamos el task como prop
-            ))}
-          </ul>
+          <TaskTables/>
         </Stack>
       </Container>
     </Box>

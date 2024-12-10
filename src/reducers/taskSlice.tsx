@@ -1,13 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Task, State } from "../types";
+import { Task, State, Status } from "../types";
 
-// Función para cargar tareas desde localStorage (solo una vez)
+// Cargar tareas desde localStorage al iniciar la aplicación
 const loadTasksFromLocalStorage = (): Task[] => {
   const savedTasks = localStorage.getItem("tasks");
   return savedTasks ? JSON.parse(savedTasks) : [];
 };
 
-// Estado inicial cargando desde localStorage solo una vez
+// Guardar tareas en localStorage
+const saveTasksToLocalStorage = (tasks: Task[]) => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
+// Estado inicial
 const initialState: State = {
   tasks: loadTasksFromLocalStorage(),
 };
@@ -16,34 +21,42 @@ const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    // Agregar una nueva tarea
     addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
-      // Guardar las tareas actualizadas en localStorage
-      localStorage.setItem("tasks", JSON.stringify(state.tasks));
+      saveTasksToLocalStorage(state.tasks); // Actualiza localStorage
     },
+
+    // Eliminar una tarea por su ID
     deleteTask: (state, action: PayloadAction<string>) => {
-      const updatedTasks = state.tasks.filter(
-        (task) => task.id !== action.payload
-      );
-      // Solo actualizamos localStorage si la lista ha cambiado
-      if (updatedTasks.length !== state.tasks.length) {
-        state.tasks = updatedTasks;
-        localStorage.setItem("tasks", JSON.stringify(state.tasks));
+      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+      saveTasksToLocalStorage(state.tasks); // Actualiza localStorage
+    },
+
+    // Marcar una tarea como completada
+    completeTask: (state, action: PayloadAction<string>) => {
+      const task = state.tasks.find((task) => task.id === action.payload);
+      if (task) {
+        task.status = "completed";
+        saveTasksToLocalStorage(state.tasks); // Actualiza localStorage
       }
     },
-    completeTask: (state, action: PayloadAction<string>) => {
-      const taskIndex = state.tasks.findIndex(
-        (task) => task.id === action.payload
-      );
-      if (taskIndex !== -1) {
-        // Cambiar el estado de la tarea a "completed"
-        state.tasks[taskIndex].status = "completed";
-        // Guardar las tareas actualizadas en localStorage
-        localStorage.setItem("tasks", JSON.stringify(state.tasks));
+
+    // Cambiar el estado de una tarea (para drag & drop)
+    updateTaskStatus: (
+      state,
+      action: PayloadAction<{ id: string; status: Status }>
+    ) => {
+      const { id, status } = action.payload;
+      const task = state.tasks.find((task) => task.id === id);
+      if (task) {
+        task.status = status; // Ahora TypeScript sabe que status es de tipo Status
+        saveTasksToLocalStorage(state.tasks); // Actualiza localStorage
       }
     },
   },
 });
 
-export const { addTask, deleteTask, completeTask } = taskSlice.actions;
+export const { addTask, deleteTask, completeTask, updateTaskStatus } =
+  taskSlice.actions;
 export default taskSlice.reducer;

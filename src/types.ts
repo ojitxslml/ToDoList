@@ -5,7 +5,7 @@ export interface Task {
   status: Status;
 }
 
-export type Status = "pending" | "completed" | "missed"; // Define correctamente la unión de estados
+export type Status = "pending" | "completed" | "inProgress"; // Define correctamente la unión de estados
 
 export interface State {
   tasks: Task[];
