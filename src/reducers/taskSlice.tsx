@@ -29,13 +29,7 @@ const taskSlice = createSlice({
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
       saveTasksToLocalStorage(state.tasks);
     },
-    completeTask: (state, action: PayloadAction<string>) => {
-      const task = state.tasks.find((task) => task.id === action.payload);
-      if (task) {
-        task.status = "completed";
-        saveTasksToLocalStorage(state.tasks);
-      }
-    },
+    //gracias chatgpt xd
     moveTask: (
       state,
       action: PayloadAction<{
@@ -69,5 +63,5 @@ const taskSlice = createSlice({
   },
 });
 
-export const { addTask, deleteTask, completeTask, moveTask } = taskSlice.actions;
+export const { addTask, deleteTask, moveTask } = taskSlice.actions;
 export default taskSlice.reducer;

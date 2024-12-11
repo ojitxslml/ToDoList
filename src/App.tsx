@@ -29,6 +29,7 @@ const App: React.FC = () => {
   const OnDragEnd: OnDragEndResponder = (result) => {
     const { destination, source, draggableId } = result;
   
+    //Si no es arrastrado a un Droppable item
     if (!destination) return;
   
     const sourceStatus = statusMap[source.droppableId];
@@ -59,7 +60,6 @@ const App: React.FC = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        /*         background: "linear-gradient(135deg, #E0F7FA 100%, #81D4BA 100%)",  */ // Gradiente de blanco a morado claro
         minHeight: "100vh", // Ocupa toda la altura de la pantalla
       }}
     >
