@@ -1,15 +1,21 @@
-// types.ts
 export interface Task {
   id: string;
   title: string;
   status: Status;
 }
 
-export type Status = "pending" | "completed" | "inProgress"; // Define correctamente la unión de estados
+export type Status = "pending" | "completed" | "inProgress";
 
 export interface State {
   tasks: Task[];
 }
+
+//Mapa de los estados para utilizar en la función "OnDragEnd"
+export const statusMap: Record<string, Status> = {
+  "Pending Tasks": "pending",
+  "In Progress Tasks": "inProgress",
+  "Completed Tasks": "completed",
+};
 
 export interface AddTaskAction {
   type: "ADD_TASK";

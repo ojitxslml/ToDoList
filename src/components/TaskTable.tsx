@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import TaskC from "./TaskC";
+import { Droppable } from "@hello-pangea/dnd";
 
 const TaskTables: React.FC = () => {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
@@ -39,11 +40,24 @@ const TaskTables: React.FC = () => {
         {title}
       </Typography>
       {tasks.length === 0 ? (
-        <Typography
-          variant="body2"
-          sx={{ padding: 2, textAlign: "center" }}
-        >
-          No tasks available.
+        <Typography variant="body2" sx={{ padding: 2, textAlign: "center" }}>
+          <Droppable droppableId={title}>
+            {(droppableProvided, snapshot) => (
+              <TableBody
+                ref={droppableProvided.innerRef}
+                {...droppableProvided.droppableProps}
+                className={snapshot.isDraggingOver ? " isDraggingOver" : ""}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography>No tasks available.</Typography>
+                {droppableProvided.placeholder}
+              </TableBody>
+            )}
+          </Droppable>
         </Typography>
       ) : (
         <Table>
@@ -60,11 +74,20 @@ const TaskTables: React.FC = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {tasks.map((task) => (
-              <TaskC key={task.id} task={task} />
-            ))}
-          </TableBody>
+          <Droppable droppableId={title}>
+            {(droppableProvided, snapshot) => (
+              <TableBody
+                ref={droppableProvided.innerRef}
+                {...droppableProvided.droppableProps}
+                className={snapshot.isDraggingOver ? " isDraggingOver" : ""}
+              >
+                {tasks.map((task, index) => (
+                  <TaskC key={task.id} task={task} index={index} />
+                ))}
+                {droppableProvided.placeholder}
+              </TableBody>
+            )}
+          </Droppable>
         </Table>
       )}
     </TableContainer>
