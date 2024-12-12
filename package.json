@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "deploy": "npm run build && aws s3 sync ./dist s3://0x5-first-demo-s3",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

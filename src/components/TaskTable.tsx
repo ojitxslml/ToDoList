@@ -11,12 +11,14 @@ import {
   TableRow,
   Paper,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import TaskC from "./TaskC";
 import { Droppable } from "@hello-pangea/dnd";
 
 const TaskTables: React.FC = () => {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const pendingTasks = tasks.filter((task) => task.status === "pending");
   const completedTasks = tasks.filter((task) => task.status === "completed");
@@ -98,8 +100,9 @@ const TaskTables: React.FC = () => {
     <div
       style={{
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         justifyContent: "space-between",
-        alignItems: "flex-start",
+        alignItems: isMobile ? "center" : "flex-start"
       }}
     >
       {renderTable(pendingTasks, "Pending Tasks")}
