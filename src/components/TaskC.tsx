@@ -16,9 +16,9 @@ const TaskC: React.FC<TaskCProps> = ({ task, index }) => {
 
   return (
     <Draggable draggableId={String(task.id)} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <TableRow
-          sx={{ marginBottom: 1 }}
+          sx={{ marginBottom: 1, opacity: snapshot.isDragging ? 0.9 : 1, backgroundColor: "white" }}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}

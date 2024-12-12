@@ -28,6 +28,7 @@ const TaskTables: React.FC = () => {
       sx={{
         margin: 1,
         minWidth: 300,
+        overflow: "hidden"
       }}
     >
       <Typography
