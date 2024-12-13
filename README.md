@@ -6,7 +6,7 @@
 **Redux Toolkit**: State management for seamless handling of app-wide data.
 **React Router**: Smooth and dynamic navigation between app views.
 **HelloPangea DnD**: Drag-and-drop functionality for intuitive task organization.
-**Material UI**: open-source React component library that implements Google's Material Design.
+**Material UI**: Open-source React component library that implements Google's Material Design.
 
 ## Usage 🐱‍👤
 - Add new tasks with a simple click.
