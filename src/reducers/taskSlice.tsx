@@ -44,6 +44,13 @@ const taskSlice = createSlice({
         const [movedTask] = state.tasks.splice(taskIndex, 1); // Eliminar tarea de su posición original
         movedTask.status = newStatus; // Actualizar el estado
 
+        // Si el nuevo estado es 'completed', asignar el completeDate
+        if (newStatus === "completed") {
+          movedTask.completeDate = new Date(); // Fecha y hora actuales
+        } else {
+          movedTask.completeDate = undefined; // Resetear si se mueve fuera de 'completed'
+        }
+
         // Obtener todas las tareas con el nuevo estado
         const tasksInNewColumn = state.tasks.filter(
           (task) => task.status === newStatus

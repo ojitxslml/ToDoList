@@ -2,6 +2,8 @@ export interface Task {
   id: string;
   title: string;
   status: Status;
+  date: Date;
+  completeDate?: Date;
 }
 
 export type Status = "pending" | "completed" | "inProgress";

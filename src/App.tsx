@@ -20,6 +20,7 @@ const App: React.FC = () => {
         id: Date.now().toString(), // Generamos un ID único basado en el tiempo (puedes usar otra estrategia)
         title: newTaskTitle.trim(),
         status: "pending" as Status,
+        date: new Date()
       };
       dispatch(addTask(newTask)); // Despachamos la acción para agregar la nueva tarea
       setNewTaskTitle(""); // Limpiamos el campo de entrada después de agregar la tarea
