@@ -46,7 +46,7 @@ const taskSlice = createSlice({
 
         // Si el nuevo estado es 'completed', asignar el completeDate
         if (newStatus === "completed") {
-          movedTask.completeDate = new Date(); // Fecha y hora actuales
+          movedTask.completeDate = new Date().toISOString(); // Convertir la fecha a string ISO
         } else {
           movedTask.completeDate = undefined; // Resetear si se mueve fuera de 'completed'
         }
@@ -67,8 +67,16 @@ const taskSlice = createSlice({
         saveTasksToLocalStorage(state.tasks); // Guardar en localStorage
       }
     },
+    revertTask: (state, action: PayloadAction<string>) => {
+      const task = state.tasks.find((task) => task.id === action.payload);
+      if (task && task.status === "completed") {
+        task.status = "pending"; // Cambiar el estado a pendiente
+        task.completeDate = undefined; // Eliminar la fecha de finalización
+        saveTasksToLocalStorage(state.tasks);
+      }
+    },
   },
 });
 
-export const { addTask, deleteTask, moveTask } = taskSlice.actions;
+export const { addTask, deleteTask, moveTask, revertTask } = taskSlice.actions;
 export default taskSlice.reducer;

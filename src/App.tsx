@@ -5,6 +5,7 @@ import { Box, Button, Container, Stack, TextField } from "@mui/material";
 import { Status, statusMap } from "./types";
 import TaskTables from "./components/TaskTable";
 import { DragDropContext, OnDragEndResponder } from "@hello-pangea/dnd";
+import CompletedTasks from "./components/CompletedTasks";
 
 const App: React.FC = () => {
   const dispatch = useDispatch(); // Acceder a los Task
@@ -20,7 +21,7 @@ const App: React.FC = () => {
         id: Date.now().toString(), // Generamos un ID único basado en el tiempo (puedes usar otra estrategia)
         title: newTaskTitle.trim(),
         status: "pending" as Status,
-        date: new Date()
+        date: new Date(),
       };
       dispatch(addTask(newTask)); // Despachamos la acción para agregar la nueva tarea
       setNewTaskTitle(""); // Limpiamos el campo de entrada después de agregar la tarea
@@ -29,13 +30,13 @@ const App: React.FC = () => {
 
   const OnDragEnd: OnDragEndResponder = (result) => {
     const { destination, source, draggableId } = result;
-  
+
     //Si no es arrastrado a un Droppable item
     if (!destination) return;
-  
+
     const sourceStatus = statusMap[source.droppableId];
     const destinationStatus = statusMap[destination.droppableId];
-  
+
     if (!sourceStatus || !destinationStatus) {
       console.error(
         "Estado no reconocido:",
@@ -44,7 +45,7 @@ const App: React.FC = () => {
       );
       return;
     }
-  
+
     // Manejar el movimiento de la tarea
     dispatch(
       moveTask({
@@ -54,7 +55,6 @@ const App: React.FC = () => {
       })
     );
   };
-  
 
   return (
     <Box
@@ -90,6 +90,7 @@ const App: React.FC = () => {
             <TaskTables />
           </DragDropContext>
         </Stack>
+        <CompletedTasks />
       </Container>
     </Box>
   );
