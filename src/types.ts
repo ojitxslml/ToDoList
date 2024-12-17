@@ -3,7 +3,7 @@ export interface Task {
   title: string;
   status: Status;
   date: string;
-  completeDate?: string; // Cambiar a string
+  completeDate?: string;
 }
 
 export type Status = "pending" | "completed" | "inProgress";

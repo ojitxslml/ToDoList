@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { format, isToday } from "date-fns";
 import { parseISO } from "date-fns/parseISO";
-import { revertTask } from "../reducers/taskSlice"; // Importar la acción de revertir tarea
+import { revertTask } from "../reducers/taskSlice";
 
 const CompletedTasks: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const CompletedTasks: React.FC = () => {
   const tasksByDate = completedTasks.reduce(
     (acc: Record<string, typeof tasks>, task) => {
       if (task.completeDate) {
-        // Parseamos la fecha en formato ISO y la convertimos a la zona horaria local
+        // Parsear la fecha en formato ISO y convertir a la zona horaria local
         const date = format(parseISO(task.completeDate), "yyyy-MM-dd");
         if (!acc[date]) {
           acc[date] = [];
@@ -60,7 +60,7 @@ const CompletedTasks: React.FC = () => {
 
       <Box
         sx={{
-          maxHeight: "500px", // Limita la altura del contenedor
+          maxHeight: "500px",
           overflowY: "auto",
           position: "relative",
         }}

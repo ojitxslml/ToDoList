@@ -10,21 +10,20 @@ import CompletedTasks from "./components/CompletedTasks";
 const App: React.FC = () => {
   const dispatch = useDispatch(); // Acceder a los Task
 
-  const [newTaskTitle, setNewTaskTitle] = useState(""); // Estado local para el título de la nueva tarea
+  const [newTaskTitle, setNewTaskTitle] = useState("");
 
-  // Manejador del evento de submit para agregar tarea
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (newTaskTitle.trim()) {
       const newTask = {
-        id: Date.now().toString(), // Generamos un ID único basado en el tiempo (puedes usar otra estrategia)
+        id: Date.now().toString(),
         title: newTaskTitle.trim(),
         status: "pending" as Status,
         date: new Date().toISOString(),
       };
-      dispatch(addTask(newTask)); // Despachamos la acción para agregar la nueva tarea
-      setNewTaskTitle(""); // Limpiamos el campo de entrada después de agregar la tarea
+      dispatch(addTask(newTask)); // Despachar la acción para agregar la nueva tarea
+      setNewTaskTitle("");
     }
   };
 
@@ -61,7 +60,7 @@ const App: React.FC = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        minHeight: "100vh", // Ocupa toda la altura de la pantalla
+        minHeight: "100vh",
       }}
     >
       <Container>
