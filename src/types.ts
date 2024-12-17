@@ -2,7 +2,7 @@ export interface Task {
   id: string;
   title: string;
   status: Status;
-  date: Date;
+  date: string;
   completeDate?: string; // Cambiar a string
 }
 
@@ -16,7 +16,7 @@ export interface State {
 export const statusMap: Record<string, Status> = {
   "Pending Tasks": "pending",
   "In Progress Tasks": "inProgress",
-  "Completed Tasks": "completed",
+  "Today Completed Tasks": "completed",
 };
 
 export interface AddTaskAction {

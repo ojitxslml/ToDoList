@@ -22,7 +22,11 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action: PayloadAction<Task>) => {
-      state.tasks.push(action.payload);
+      const taskWithValidDate = {
+        ...action.payload,
+        date: action.payload.date ?? new Date().toISOString(), // Asignar la fecha actual si es nula
+      };
+      state.tasks.push(taskWithValidDate);
       saveTasksToLocalStorage(state.tasks);
     },
     deleteTask: (state, action: PayloadAction<string>) => {

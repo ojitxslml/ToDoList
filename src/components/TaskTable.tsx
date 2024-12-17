@@ -15,13 +15,20 @@ import {
 } from "@mui/material";
 import TaskC from "./TaskC";
 import { Droppable } from "@hello-pangea/dnd";
+import { format } from "date-fns";
+import { parseISO } from "date-fns/parseISO";
 
 const TaskTables: React.FC = () => {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-
+  const today = format(new Date(), "yyyy-MM-dd");
   const pendingTasks = tasks.filter((task) => task.status === "pending");
-  const completedTasks = tasks.filter((task) => task.status === "completed");
+  const completedTasks = tasks.filter(
+    (task) =>
+      task.status === "completed" &&
+      task.completeDate &&
+      format(parseISO(task.completeDate), "yyyy-MM-dd") === today
+  );
   const inProgressTasks = tasks.filter((task) => task.status === "inProgress");
 
   const renderTable = (tasks: Task[], title: string) => (
@@ -30,7 +37,7 @@ const TaskTables: React.FC = () => {
       sx={{
         margin: 1,
         minWidth: 300,
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
       <Typography
@@ -102,12 +109,12 @@ const TaskTables: React.FC = () => {
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
         justifyContent: "space-between",
-        alignItems: isMobile ? "center" : "flex-start"
+        alignItems: isMobile ? "center" : "flex-start",
       }}
     >
       {renderTable(pendingTasks, "Pending Tasks")}
       {renderTable(inProgressTasks, "In Progress Tasks")}
-      {renderTable(completedTasks, "Completed Tasks")}
+      {renderTable(completedTasks, "Today Completed Tasks")}
     </div>
   );
 };
