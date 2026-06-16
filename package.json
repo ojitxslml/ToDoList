@@ -10,7 +10,8 @@
     "deploy": "gh-pages -d dist",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "update:deps": "npx npm-check-updates -u --cooldown 7d && npm install"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
