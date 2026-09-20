@@ -65,7 +65,7 @@ const TaskC: React.FC<TaskCProps> = ({ task, index }) => {
             sx={{
               marginBottom: 1,
               opacity: snapshot.isDragging ? 0.9 : 1,
-              backgroundColor: "white",
+              backgroundColor: "background.paper",
             }}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
@@ -85,8 +85,8 @@ const TaskC: React.FC<TaskCProps> = ({ task, index }) => {
                   aria-label="Delete Task"
                   size="small"
                   sx={{
-                    backgroundColor: "red",
-                    color: "white",
+                    backgroundColor: "error.main",
+                    color: "error.contrastText",
                     marginLeft: 1,
                     "&:hover": {
                       backgroundColor: (theme) => theme.palette.error.dark,
@@ -101,8 +101,8 @@ const TaskC: React.FC<TaskCProps> = ({ task, index }) => {
                   aria-label="Change Status"
                   size="small"
                   sx={{
-                    backgroundColor: "blue",
-                    color: "white",
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
                     marginLeft: 1,
                     "&:hover": {
                       backgroundColor: (theme) => theme.palette.primary.dark,

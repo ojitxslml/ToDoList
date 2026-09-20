@@ -1,13 +1,30 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask, moveTask } from "./reducers/taskSlice";
-import { Box, Button, Container, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  PaletteMode,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import { Status, statusMap } from "./types";
 import TaskTables from "./components/TaskTable";
 import { DragDropContext, OnDragEndResponder } from "@hello-pangea/dnd";
 import CompletedTasks from "./components/CompletedTasks";
 
-const App: React.FC = () => {
+interface AppProps {
+  mode: PaletteMode;
+  onToggleColorMode: () => void;
+}
+
+const App: React.FC<AppProps> = ({ mode, onToggleColorMode }) => {
   const dispatch = useDispatch(); // Acceder a los Task
 
   const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -65,7 +82,27 @@ const App: React.FC = () => {
     >
       <Container>
         <Stack direction={"column"}>
-          <h1>Tasks To Do</h1>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ mt: 2 }}
+          >
+            <Typography component="h1" variant="h1">
+              Tasks To Do
+            </Typography>
+            <Tooltip
+              title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
+            >
+              <IconButton
+                aria-label={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
+                color="inherit"
+                onClick={onToggleColorMode}
+              >
+                {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+              </IconButton>
+            </Tooltip>
+          </Stack>
 
           <form onSubmit={handleAddTask}>
             <TextField
